@@ -72,7 +72,7 @@ async def 일정확인(interaction: discord.Interaction):
         if len(msg) > 1900:
             msg = msg[:1900] + "\n...(일정이 너무 많아서 일부만 보여드려요)"
 
-        await interaction.response.send_message(f"📅 등록된 일정:\n{msg}")
+        await interaction.response.send_message(f"등록된 일정:\n{msg}")
     
     except Exception as e:
         await interaction.response.send_message(f"서버에러: {e}")
