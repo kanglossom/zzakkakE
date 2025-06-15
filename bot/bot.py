@@ -20,14 +20,15 @@ bot = commands.Bot(command_prefix=None, intents=intents)
 @bot.event
 async def on_ready():
     await bot.tree.sync() # 슬래시 명령어 사용하겠다는거임
-    try:
-        print(f'명령어 {len(synced)}개 등록됨')
-        for cmd in synced:
-            print(f'{cmd.name}')
-    except Exception as e:
-        print("오류",e)
-
     print(f'로그인완료: {bot.user}')
+    try:
+        await bot.tree.clear_commands(guild=None)  # 👈 기존 슬래시 명령어 전부 삭제
+        synced = await bot.tree.sync()             # 👈 전역으로 다시 등록
+        print(f"✅ 새 명령어 {len(synced)}개 등록됨:")
+        for cmd in synced:
+            print(f"📎 {cmd.name}")
+    except Exception as e:
+        print(f"❌ 명령어 등록 실패: {e}")
 
 
 # /일정입력 [제목] [날짜]
