@@ -9,6 +9,7 @@ import os # 환경변수 가져오기
 load_dotenv() # 얘가 6줄에 의해 작동함
 TOKEN = os.getenv("DISCORD_BOT_TOKEN") # 얘가 7줄에 의해 작동함
 # .env에 저장된 TOKEN 값 불러오는거임
+SERVER = "54.252.227.49"
 
 intents = discord.Intents.default()
 # 걍 최소 필요한 코드라고 이해하자
@@ -23,7 +24,7 @@ async def on_ready():
 
 
 # /일정입력 [제목] [날짜]
-@bot.tree.command(name="일정입력", description="일정을 등록합니다")
+@bot.tree.command(name="일정 입력", description="일정을 등록합니다")
 # 이건 제목 = / 눌렀을 때 뜨는 명령어 이름, 설명 = 말그대로 옆에 무슨기능인지 나오는 설명임
 @app_commands.describe(제목="일정 제목", 날짜="날짜 (YYYY-MM-DD)")
 # 이건 입력할때 입력창에 보면 각각 필드를 눌렀을 때 어떤 형식으로 입력하는지 알려주는거임
@@ -36,7 +37,7 @@ async def 일정입력(interaction: discord.Interaction, 제목: str, 날짜: st
     }
     # data로 묶여서 서버에 넘어갈 준비 완료
 
-    res = requests.post("http://127.0.0.1:8000/schedule/create/", json=data)
+    res = requests.post(f"http://{SERVER}/schedule/create/", json=data)
     # Django 서버로 HTTP POST 요청 보냄!
     if res.status_code == 200:
         await interaction.response.send_message("일정 등록 완료")
@@ -45,6 +46,10 @@ async def 일정입력(interaction: discord.Interaction, 제목: str, 날짜: st
         await interaction.response.send_message("등록 실패")
         # 등록에 실패했을 때 봇이 보내는 메세지가 여기!
 
+# /일정확인
+@bot.tree.command(name="일정 확인", description="등록된 일정을 전부 확인합니다")
+async def 일정확인(interaction: discord.Interaction):
+    response = requests.get(f"http://{SERVER}/schedule/")
 
 
 bot.run(TOKEN) # 봇 실행~
