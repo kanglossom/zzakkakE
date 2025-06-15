@@ -20,6 +20,9 @@ bot = commands.Bot(command_prefix=None, intents=intents)
 @bot.event
 async def on_ready():
     await bot.tree.sync() # 슬래시 명령어 사용하겠다는거임
+    print(f'명령어 {len(synced)}개 등록됨')
+    for cmd in synced:
+        print(f'{cmd.name}')
     print(f'로그인완료: {bot.user}')
 
 
