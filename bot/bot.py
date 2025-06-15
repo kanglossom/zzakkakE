@@ -40,14 +40,14 @@ async def 일정입력(interaction: discord.Interaction, 제목: str, 날짜: st
     res = requests.post("http://127.0.0.1:8000/schedule/create/", json=data)
     # Django 서버로 HTTP POST 요청 보냄!
     if res.status_code == 200:
-        await interaction.response.send_message("일정 등록 완료")
+        await interaction.response.send_message("일정등록 완료")
         # 등록이 완료되었을 때 봇이 보내는 메세지가 바로 여기
     else :
         await interaction.response.send_message("등록 실패")
         # 등록에 실패했을 때 봇이 보내는 메세지가 여기!
 
 # /일정확인
-@bot.tree.command(name="일정 확인", description="등록된 일정을 전부 확인합니다")
+@bot.tree.command(name="일정확인", description="등록된 일정을 전부 확인합니다")
 async def 일정확인(interaction: discord.Interaction):
     response = requests.get("http://127.0.0.1:8000/schedule/")
     if response.status_code == 200:
