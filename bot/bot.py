@@ -12,7 +12,7 @@ TOKEN = os.getenv("DISCORD_BOT_TOKEN") # 얘가 7줄에 의해 작동함
 
 intents = discord.Intents.default()
 # 걍 최소 필요한 코드라고 이해하자
-bot = commands.Bot(command_prefix=None, intents=intents)
+bot = commands.Bot(command_prefix="", intents=intents)
 # 역시 이것도 그냥 필요한 코드라고 생각하자 봇 객체를 만든거임
 
 # 봇이 로그인을 했음을 알리는 이벤트
