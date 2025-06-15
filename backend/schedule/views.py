@@ -10,6 +10,7 @@ from .serializers import ScheduleSerializer
 # 참고로 POST는 데이터를 '보내는' 용도. - 등록, 생성
 
 # 다음과 같은걸 API 뷰라고 함.
+# 일정입력 데이터 받아주는 친구
 @api_view(['POST']) # POST니까 데이터를 서버로 보낸다는 것
 def create_schedule(request):
     serializer = ScheduleSerializer(data=request.data)
@@ -19,6 +20,7 @@ def create_schedule(request):
         return Response({"message":"일정 등록 완료!"}) # 성공적으로 저장
     return Response(serializer.errors) # 유효하지 않다면 에러
 
+# 일정 조회 관련된거
 @api_view(['GET']) # GET, 즉 일정 조회만 가능
 def get_schedules(request):
     schedules = Schedule.objects.all().order_by('date')
@@ -26,6 +28,7 @@ def get_schedules(request):
     serializer = ScheduleSerializer(schedules, many=True)
     return Response(serializer.data)
 
+# 일정 삭제 관련
 @api_view(['POST'])
 def delete_schedule(request):
     title = request.data.get('title')

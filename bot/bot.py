@@ -65,8 +65,14 @@ async def 일정확인(interaction: discord.Interaction):
         if not data:
             await interaction.response.send_message("등록된 일정이 없다능")
             return
-        msg = "\n".join([f"{item['date']}-{item['title']}"for item in data])
-        await interaction.response.send_message(f"등록된 일정:\n{msg}")
+        
+        msg_list = [f"{item['date']} - {item['title']}" for item in data]
+        msg = "\n".join(msg_list)
+
+        if len(msg) > 1900:
+            msg = msg[:1900] + "\n...(일정이 너무 많아서 일부만 보여드려요)"
+
+        await interaction.response.send_message(f"📅 등록된 일정:\n{msg}")
     
     except Exception as e:
         await interaction.response.send_message(f"서버에러: {e}")
