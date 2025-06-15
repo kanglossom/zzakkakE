@@ -24,7 +24,7 @@ async def on_ready():
 
 
 # /일정입력 [제목] [날짜]
-@bot.tree.command(name="일정 입력", description="일정을 등록합니다")
+@bot.tree.command(name="일정입력", description="일정을 등록합니다")
 # 이건 제목 = / 눌렀을 때 뜨는 명령어 이름, 설명 = 말그대로 옆에 무슨기능인지 나오는 설명임
 @app_commands.describe(제목="일정 제목", 날짜="날짜 (YYYY-MM-DD)")
 # 이건 입력할때 입력창에 보면 각각 필드를 눌렀을 때 어떤 형식으로 입력하는지 알려주는거임
