@@ -56,7 +56,7 @@ async def 일정입력(interaction: discord.Interaction, 제목: str, 날짜: st
 @bot.tree.command(name="view_schedule", description="등록된 일정을 전부 확인합니다")
 async def 일정확인(interaction: discord.Interaction):
     try: 
-        res = requests.get("http://127.0.0.1:8000/schedule/")
+        res = requests.get("http://127.0.0.1:8000/schedule/get")
         if res.status_code != 200:
             await interaction.response.send_message("서버가 응답을 안해요")
             return
