@@ -9,6 +9,8 @@ import os
 load_dotenv()
 TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
+print(f"TOKEN: {TOKEN}")
+
 # TOKEN =
 
 intents = discord.Intents.default()
