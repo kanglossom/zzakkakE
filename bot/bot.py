@@ -9,7 +9,7 @@ import os # 환경변수 가져오기
 load_dotenv() # 얘가 6줄에 의해 작동함
 TOKEN = os.getenv("DISCORD_BOT_TOKEN") # 얘가 7줄에 의해 작동함
 # .env에 저장된 TOKEN 값 불러오는거임
-SERVER = "54.252.227.49"
+
 
 intents = discord.Intents.default()
 # 걍 최소 필요한 코드라고 이해하자
@@ -37,7 +37,7 @@ async def 일정입력(interaction: discord.Interaction, 제목: str, 날짜: st
     }
     # data로 묶여서 서버에 넘어갈 준비 완료
 
-    res = requests.post(f"http://{SERVER}/schedule/create/", json=data)
+    res = requests.post("http://127.0.0.1:8000/schedule/create/", json=data)
     # Django 서버로 HTTP POST 요청 보냄!
     if res.status_code == 200:
         await interaction.response.send_message("일정 등록 완료")
@@ -49,7 +49,15 @@ async def 일정입력(interaction: discord.Interaction, 제목: str, 날짜: st
 # /일정확인
 @bot.tree.command(name="일정 확인", description="등록된 일정을 전부 확인합니다")
 async def 일정확인(interaction: discord.Interaction):
-    response = requests.get(f"http://{SERVER}/schedule/")
-
+    response = requests.get("http://127.0.0.1:8000/schedule/")
+    if response.status_code == 200:
+        data = response.json()
+        if not data:
+            await interaction.response.send_message("등록된 일정이 없다능")
+        else:
+            msg = "\n".join([f"{item['date']}-{item['title']}"for item in data])
+            await interaction.response.send_message(f"등록된 일정:\n{msg}")
+    else:
+        await interaction.response.send_message("서버에러")
 
 bot.run(TOKEN) # 봇 실행~
