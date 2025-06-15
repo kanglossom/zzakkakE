@@ -10,7 +10,6 @@ load_dotenv() # 얘가 6줄에 의해 작동함
 TOKEN = os.getenv("DISCORD_BOT_TOKEN") # 얘가 7줄에 의해 작동함
 # .env에 저장된 TOKEN 값 불러오는거임
 
-
 intents = discord.Intents.default()
 # 걍 최소 필요한 코드라고 이해하자
 bot = commands.Bot(command_prefix=None, intents=intents)
@@ -19,7 +18,11 @@ bot = commands.Bot(command_prefix=None, intents=intents)
 # 봇이 로그인을 했음을 알리는 이벤트
 @bot.event
 async def on_ready():
-    await bot.tree.sync() # 슬래시 명령어 사용하겠다는거임
+    try:
+        synced = await bot.tree.sync() # 슬래시 명령어 사용하겠다는거임
+        print(f'✅ 명령어 {len(synced)}개 등록됨: {[cmd.name for cmd in synced]}')
+    except Exception as e:
+        print(f'❌ 명령어 등록 실패: {e}')
     print(f'로그인완료: {bot.user}')
 
 
@@ -66,6 +69,6 @@ async def 일정확인(interaction: discord.Interaction):
         await interaction.response.send_message(f"등록된 일정:\n{msg}")
     
     except Exception as e:
-        await interaction.response.send_message("서버에러")
+        await interaction.response.send_message(f"서버에러: {e}")
 
 bot.run(TOKEN) # 봇 실행~
