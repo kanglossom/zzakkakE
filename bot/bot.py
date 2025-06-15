@@ -3,8 +3,13 @@ from discord import app_commands
 from discord.ext import commands
 import requests
 import asyncio
+from dotenv import load_dotenv
+import os
 
-TOKEN = "MTM4MzY4MjA2ODA1NTMyNjc3MA.Gbl2Dq.l3cmCeRBb8ie78eCuh4ede2jOqLjW63AU4D-mE"
+load_dotenv()
+TOKEN = os.getenv("DISCORD_BOT_TOKEN")
+
+# TOKEN =
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix='/', intents=intents)
